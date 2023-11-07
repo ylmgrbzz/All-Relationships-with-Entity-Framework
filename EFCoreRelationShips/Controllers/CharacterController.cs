@@ -23,5 +23,14 @@ namespace EFCoreRelationShips.Controllers
 
             return Ok(characters);
         }
+
+        [HttpPost]
+        public async Task<ActionResult<List<Character>>> Post(Character character)
+        {
+            _dataContext.Characters.Add(character);
+            await _dataContext.SaveChangesAsync();
+
+            return await Get(character.UserId);
+        }
     }
 }
