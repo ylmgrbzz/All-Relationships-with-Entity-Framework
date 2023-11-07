@@ -1,4 +1,4 @@
-using EFCoreRelationShips.Data;
+global using EFCoreRelationShips.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
