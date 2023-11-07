@@ -27,6 +27,13 @@ namespace EFCoreRelationShips.Controllers
         [HttpPost]
         public async Task<ActionResult<List<Character>>> Post(Character character)
         {
+            var user = await _dataContext.Users.FindAsync(
+                               character.UserId
+                                          );
+            if (user == null)
+            {
+                  return BadRequest("User not found");
+            }
             _dataContext.Characters.Add(character);
             await _dataContext.SaveChangesAsync();
 
