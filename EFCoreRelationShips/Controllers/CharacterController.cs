@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EFCoreRelationShips.Controllers
 {
@@ -9,9 +9,19 @@ namespace EFCoreRelationShips.Controllers
     {
         private readonly DataContext _dataContext;
 
-        public CharacterController( DataContext dataContext  )
+        public CharacterController(DataContext dataContext)
         {
             _dataContext = dataContext;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<List<Character>>> Get(int userId)
+        {
+            var characters = await _dataContext.Characters.Where(
+                character => character.UserId == userId
+                           ).ToListAsync();
+
+            return Ok(characters);
         }
     }
 }
