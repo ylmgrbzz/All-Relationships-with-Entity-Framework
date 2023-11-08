@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 
 namespace EFCoreRelationShips.Controllers
 {
@@ -45,6 +46,29 @@ namespace EFCoreRelationShips.Controllers
             await _dataContext.SaveChangesAsync();
 
             return await Get(newCharacter.UserId);
+        }
+
+        [HttpPost("weapon")]
+        public async Task<ActionResult<Weapon>> AddWeapon(CreateCharacterDto request)
+        {
+            var user = await _dataContext.Users.FindAsync(
+                               request.UserId
+                                          );
+            var newCharacter = new Character
+            {
+                Name = request.Name,
+                RpgClass = request.RpgClass,
+                User = user
+            };
+
+            if (user == null)
+            {
+                return BadRequest("User not found");
+            }
+            _dataContext.Characters.Add(newCharacter);
+            await _dataContext.SaveChangesAsync();
+            return Ok(newCharacter);
+
         }
     }
 }
