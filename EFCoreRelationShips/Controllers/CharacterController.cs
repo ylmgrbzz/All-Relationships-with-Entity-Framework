@@ -19,7 +19,7 @@ namespace EFCoreRelationShips.Controllers
         {
             var characters = await _dataContext.Characters.Where(
                 character => character.UserId == userId
-                           ).ToListAsync();
+                           ).Include(character => character.Weapon).ToListAsync();
 
             return Ok(characters);
         }
