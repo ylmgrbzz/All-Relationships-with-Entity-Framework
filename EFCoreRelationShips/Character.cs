@@ -9,9 +9,10 @@ namespace EFCoreRelationShips
         public string RpgClass { get; set; } = "Knight";
 
         [JsonIgnore]
-        public User User { get; set; } = null!;
+        public User User { get; set; } 
 
         public int UserId { get; set; }
-        public Weapon Weapon { get; set; } = null!;
+        public Weapon Weapon { get; set; } 
+        public List<Skill> Skills { get; set; }
     }
 }
