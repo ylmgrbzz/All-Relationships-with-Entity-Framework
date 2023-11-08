@@ -19,12 +19,12 @@ namespace EFCoreRelationShips.Controllers
         {
             var characters = await _dataContext.Characters.Where(
                 character => character.UserId == userId
-                           ).Include(character => character.Weapon).ToListAsync();
+                           ).Include(character => character.Weapon).Include(character => character.Skills).ToListAsync();
 
             return Ok(characters);
         }
 
-        [HttpPost]
+        [HttpPost("weapon")]
         public async Task<ActionResult<Character>> Post(AddWeaponDto request)
         {
             var character = await _dataContext.Characters.FindAsync(
@@ -46,7 +46,7 @@ namespace EFCoreRelationShips.Controllers
             return Ok(newWeapon);
         }
 
-        [HttpPost("weapon")]
+        [HttpPost]
         public async Task<ActionResult<List<Character>>> AddWeapon(CreateCharacterDto request)
         {
             var user = await _dataContext.Users.FindAsync(
