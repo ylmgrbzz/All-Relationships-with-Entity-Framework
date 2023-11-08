@@ -25,19 +25,26 @@ namespace EFCoreRelationShips.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<Character>>> Post(Character character)
+        public async Task<ActionResult<List<Character>>> Post(CreateCharacterDto request)
         {
             var user = await _dataContext.Users.FindAsync(
-                               character.UserId
+                               request.UserId
                                           );
+            var newCharacter = new Character
+            {
+                Name = request.Name,
+                RpgClass = request.RpgClass,
+                User = user
+            };
+
             if (user == null)
             {
-                  return BadRequest("User not found");
+                return BadRequest("User not found");
             }
-            _dataContext.Characters.Add(character);
+            _dataContext.Characters.Add(newCharacter);
             await _dataContext.SaveChangesAsync();
 
-            return await Get(character.UserId);
+            return await Get(newCharacter.UserId);
         }
     }
 }
